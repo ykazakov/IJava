@@ -27,6 +27,7 @@ import io.github.spencerpark.ijava.execution.*;
 import io.github.spencerpark.ijava.magics.ClasspathMagics;
 import io.github.spencerpark.ijava.magics.ExecMagics;
 import io.github.spencerpark.ijava.magics.MavenResolver;
+import io.github.spencerpark.jupyter.channels.JupyterSocket;
 import io.github.spencerpark.jupyter.kernel.BaseKernel;
 import io.github.spencerpark.jupyter.kernel.LanguageInfo;
 import io.github.spencerpark.jupyter.kernel.ReplacementOptions;
@@ -42,6 +43,7 @@ import jdk.jshell.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class JavaKernel extends BaseKernel {
@@ -156,6 +158,7 @@ public class JavaKernel extends BaseKernel {
 
     @Override
     public List<String> formatError(Exception e) {
+        JupyterSocket.JUPYTER_LOGGER.log(Level.WARNING, "", e);
         List<String> fmt = new LinkedList<>();
         if (e instanceof CompilationException) {
             return formatCompilationException((CompilationException) e);
